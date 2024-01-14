@@ -4,12 +4,15 @@ import ServiceItem from './ServiceItem';
 
 
 export default function ServiceList() {
-    const { serviceList } = useSelector((state) => state.reducer);
-   
+    const { serviceList, filteredList } = useSelector((state) => state.reducer);
+    console.log(filteredList)
+
     return (
         <ul className='list-group list-group-flush mt-3'>
             {
-                serviceList.map((service, index) => <ServiceItem key={index} {...service} />)
+                filteredList.length ?
+                    filteredList.map((service, index) => <ServiceItem key={index} {...service} />) :
+                    serviceList.map((service, index) => <ServiceItem key={index} {...service} />)
             }
         </ul>
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
-import { CHANGE_SERVICE_PRICE, CHANGE_SERVICE_NAME, SAVE_DATA, SAVE_EDITED_DATA, CANCEL_EDIT } from '../redux/actions';
+import { CHANGE_SERVICE_PRICE, CHANGE_SERVICE_NAME, SAVE_DATA, SAVE_EDITED_DATA, CANCEL_EDIT, FILTER_DATA } from '../redux/actions';
 
 export default function Form() {
     const dispatch = useDispatch();
@@ -23,6 +23,12 @@ export default function Form() {
         dispatch({ type: CANCEL_EDIT })
     }
 
+    const hanldeOnChange = (e) => {
+        dispatch({ type: CHANGE_SERVICE_NAME, payload: e.target.value })
+        const filteredList = serviceList.filter(item => item.name.toLowerCase().startsWith(e.target.value.toLowerCase()));
+        dispatch({ type: FILTER_DATA, payload: filteredList })
+    }
+
     return (
         <>
             <form className='d-flex'>
@@ -30,9 +36,7 @@ export default function Form() {
                     type='text'
                     required
                     value={service.name}
-                    onChange={(e) => {
-                        dispatch({ type: CHANGE_SERVICE_NAME, payload: e.target.value })
-                    }}
+                    onChange={hanldeOnChange}
                 />
                 <input
                     type='number'
